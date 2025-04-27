@@ -1,0 +1,19 @@
+import json
+
+# Load the notebook JSON
+with open('FullNotebook/Filepath/AndName.ipynb', 'r', encoding='utf-8') as f:
+    notebook = json.load(f)
+
+# Count words in markdown cells
+word_count = 0
+
+for cell in notebook.get('cells', []):
+    if cell.get('cell_type') == 'markdown':
+        lines = cell.get('source', [])
+        for line in lines:
+            # Remove markdown headings and special characters
+            clean_line = line.strip().lstrip("#*- ")
+            words = clean_line.split()
+            word_count += len(words)
+
+print(f"Total Markdown Word Count: {word_count}")
